@@ -4,8 +4,8 @@
 #define SYNC 0xAA
 #define EXCODE 0x55
 // vector<int> v;
-int opt[2000010];
-int ti = 0;
+int opt[2000010]={-999999999};
+int ti = 1;
 int poor_signal = 1;
 int min(int a,int b){
     if(a<b)return a;
@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
     FILE *stream = 0;
     stream = fopen("COM3", "r");
     int connect = 0;
-    int last = 0;
+    int last = 999999999;
     int cd = 0;
     /* Loop forever, parsing one Packet per loop... */
     while (ti<100000) {
@@ -146,18 +146,19 @@ int main(int argc, char **argv) {
 
         int mx = -100000000,mn = 100000000;
         if(lasti==ti)continue;
-        for(int i=max(0,ti-3);i<=ti;i++){
+        for(int i=max(0,ti-10);i<=ti;i++){
             // printf("%d ",opt[i]);
             mx = max(mx,opt[i]);
             mn = min(mn,opt[i]);
         }
-        if(!poor_signal&&mx-mn>490&&(double)(mx-mn)/last>1.5&&last!=0&&cd==0&&(double)(mx-mn)/last<30){
-            printf("Click!\n");
+        if(!poor_signal&&mx-mn>490&&(double)(mx-mn)/last>1.5&&cd==0&&(double)(mx-mn)/last<30.0){
+            printf("Click! %lf\n",(double)(mx-mn)/last);
+            // printf()
             fflush(stdout);
             lasti = ti;
             cd = 500;
         }
-        else if(!cd){
+        else{
             last = mx-mn;
         }
         if(cd==1){

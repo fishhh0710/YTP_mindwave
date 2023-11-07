@@ -10,6 +10,7 @@ status = -1
 start_t = time.time()
 timest = 0 #0->left 1->right
 x0,y0,x1,y1 = 0,0,9,3
+clicking = 0
 tab = {"111111":"1","111011":"2","11011":"3","10111":"4","10011":"5","011111":"6","011011":"7","01011":"8","00111":"9","00011":"0","111110":"q","111010":"w","11010":"e","10110":"r","10010":"t","011110":"y","011010":"u","01010":"i","00110":"o","00010":"p","111101":"a","111001":"s","11001":"d","10101":"f","10001":"g","011101":"h","011001":"j","01001":"k","00101":"l","00001":";","111100":"z","111000":"x","11000":"c","10100":"v","10000":"b","011100":"n","011000":"m","01000":",","00100":".","00000":"?"}
 res = ""
 
@@ -46,7 +47,9 @@ def split():
                 y0 = midy+1
                 draw()
                 y0 = yy
-        time.sleep(1)
+        time.sleep(2)
+        while(clicking):
+            time.sleep(0.01)
 
 def click():
     global x0,y0,x1,y1,start_t,res
@@ -90,6 +93,7 @@ def read_output():
         elif output_line == "GreatSignal\n":
             status = 1
         elif output_line == "Click!\n": 
+            clicking = 1
             status = 2
             click()
             draw()
@@ -101,6 +105,7 @@ def read_output():
                 except:
                     print("Error")
                 reset()
+            clicking = 0
         elif output_line == "Cd_ends\n" and status != -1 :
             status = 1
 
@@ -110,14 +115,14 @@ def read_output():
         draw_circle()
         
 
-exe_path = "fake.exe"
+exe_path = "main.exe"
 process = subprocess.Popen(exe_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
 window = tk.Tk()
 window.title('test')
 window.geometry('1260x600')
 window.configure(background='white')
-print("hello!")
+# print("hello!")
 
 
 # 上方的文字區域
