@@ -117,7 +117,7 @@ window = tk.Tk()
 window.title('test')
 window.geometry('1260x600')
 window.configure(background='white')
-print("hello!")
+# print("hello!")
 
 
 # 上方的文字區域
