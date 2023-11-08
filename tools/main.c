@@ -73,10 +73,8 @@ int parsePayload(unsigned char *payload, unsigned char pLength){
             //     extendedCodeLevel, code, length);
             // printf("Data value(s):");
             // printf("%d\n",res);
-            if(!poor_signal){
-                opt[min(ti,1000000)] = res;
-                ti++;
-            }
+            opt[min(ti,1000000)] = res;
+            ti++;
         }
 
         /* Increment the bytesParsed by the length of the Data Value */
@@ -145,20 +143,25 @@ int main(int argc, char **argv) {
         parsePayload(payload, pLength);
 
         int mx = -100000000,mn = 100000000;
-        if(lasti==ti)continue;
-        for(int i=max(0,ti-10);i<=ti;i++){
+        int mmx = -100000000,mmn = 100000000;
+        if(ti<5)continue;
+        for(int i=ti-2;i<=ti;i++){
             // printf("%d ",opt[i]);
             mx = max(mx,opt[i]);
             mn = min(mn,opt[i]);
         }
-        if(!poor_signal&&mx-mn>490&&(double)(mx-mn)/last>1.5&&cd==0&&(double)(mx-mn)/last<30.0){
-            printf("Click! %lf\n",(double)(mx-mn)/last);
-            // printf()
-            fflush(stdout);
-            lasti = ti;
-            cd = 500;
+        for(int i=ti-10;i<ti-2;i++){
+            mmx = max(mmx,opt[i]);
+            mmn = min(mmn,opt[i]);
         }
-        else{
+        last = mmx-mmn;
+        if(!poor_signal&&mx-mn>490&&(double)(mx-mn)/(last)>1.5&&cd==0&&(double)(mx-mn)/last<10.0){
+            printf("Click! %lf\n",(double)(mx-mn)/last);
+            fflush(stdout);
+            cd = 1000; //避免掉眨眼後產生的剩餘震盪波
+            last = 9999999;
+        }
+        else if(!cd){
             last = mx-mn;
         }
         if(cd==1){
