@@ -6,7 +6,7 @@
 // vector<int> v;
 int opt[2000010]={-999999999};
 int ti = 1;
-int poor_signal = 1;
+int poor_signal = 1; // 1->no 0->ok
 int min(int a,int b){
     if(a<b)return a;
     return b;
@@ -156,13 +156,10 @@ int main(int argc, char **argv) {
         }
         last = mmx-mmn;
         if(!poor_signal&&mx-mn>490&&(double)(mx-mn)/(last)>1.5&&cd==0&&(double)(mx-mn)/last<10.0){
-            printf("Click! %lf\n",(double)(mx-mn)/last);
+            // printf("Click! %lf\n",(double)(mx-mn)/last);
+            printf("Click!\n");
             fflush(stdout);
-            cd = 1000; //避免掉眨眼後產生的剩餘震盪波
-            last = 9999999;
-        }
-        else if(!cd){
-            last = mx-mn;
+            cd = 700; //避免掉眨眼後產生的剩餘震盪波
         }
         if(cd==1){
             printf("Cd_ends\n");

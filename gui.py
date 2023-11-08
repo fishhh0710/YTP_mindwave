@@ -93,7 +93,6 @@ def read_output():
         elif output_line == "GreatSignal\n":
             status = 1
         elif output_line == "Click!\n": 
-            clicking = 1
             status = 2
             click()
             draw()
@@ -105,7 +104,6 @@ def read_output():
                 except:
                     print("Error")
                 reset()
-            clicking = 0
         elif output_line == "Cd_ends\n" and status != -1 :
             status = 1
 
@@ -115,7 +113,7 @@ def read_output():
         draw_circle()
         
 
-exe_path = "main.exe"
+exe_path = "main.exe" ###
 process = subprocess.Popen(exe_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
 window = tk.Tk()
